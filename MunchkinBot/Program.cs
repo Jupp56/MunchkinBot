@@ -4,15 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.IO;
+using Telegram.Bot;
 
 
 namespace MunchkinBot
 {
     class Program
     {
+        private static readonly TelegramBotClient Bot = new TelegramBotClient("523450690:AAHuwdKhWHIZwwndxQ1bWcktpL9kJqnEGR8"); //tokenabfrage noch nicht implementiert
         #region MAIN
         static void Main(string[] args)
         {
+            Bot.OnMessage += Bot_OnMessage;
+            Bot.OnMessageEdited += Bot_OnMessage;
+            Bot.StartReceiving();
+            
             Program Program = new Program();
             Console.WriteLine("<Bot startet...>\n");
             Console.WriteLine("Munchkin Bot v. (alpha) 0.0.1 \n@Author: Olfi01 und SAvB\n\nNur zur privaten Verwendung! Munchkin: (c) Steve Jackson Games 2001 und Pegasus Spiele 2003 für die deutsche Übersetzung.\nAlle Rechte bleiben bei den entsprechenden Eigentümern\n");
@@ -31,7 +37,22 @@ namespace MunchkinBot
             
 
             Console.ReadKey();
+            Bot.StopReceiving();
             stopBot();
+            
+            
+        }
+
+        private static void Bot_OnMessage(object sender, Telegram.Bot.Args.MessageEventArgs e)
+        {
+            if (e.Message.Type == Telegram.Bot.Types.Enums.MessageType.TextMessage)
+            {
+                
+                if (e.Message.Text=="someone there?")
+                {
+                    Bot.SendTextMessageAsync(e.Message.Chat.Id, "Bot up and running... " + e.Message.Chat.FirstName + " " + e.Message.Chat.LastName);
+                }
+            }
         }
         #endregion
 
