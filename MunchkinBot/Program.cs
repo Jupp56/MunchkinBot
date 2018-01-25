@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.IO;
 using Telegram.Bot;
-
+using System.Data.Entity;
 
 namespace MunchkinBot
 {

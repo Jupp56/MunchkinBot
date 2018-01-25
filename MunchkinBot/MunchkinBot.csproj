@@ -73,28 +73,57 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DBModel.Designer.cs">
+    <Compile Include="Card.cs">
+      <DependentUpon>MunchkinContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MunchkinDB.cs" />
+    <Compile Include="MunchkinDB.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DBModel.edmx</DependentUpon>
+      <DependentUpon>MunchkinDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Dungeon.cs">
+      <DependentUpon>MunchkinContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Kartenstack.cs" />
+    <Compile Include="MunchkinContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MunchkinContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MunchkinContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MunchkinContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <EntityDeploy Include="DBModel.edmx">
+    <EntityDeploy Include="MunchkinDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DBModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>MunchkinDB.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="DBModel.edmx.diagram">
-      <DependentUpon>DBModel.edmx</DependentUpon>
+    <None Include="MunchkinDB.edmx.diagram">
+      <DependentUpon>MunchkinDB.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DBModel.edmx.sql" />
+    <Content Include="MunchkinContext.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MunchkinContext.Context.cs</LastGenOutput>
+      <DependentUpon>MunchkinDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="MunchkinContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MunchkinContext.cs</LastGenOutput>
+      <DependentUpon>MunchkinDB.edmx</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

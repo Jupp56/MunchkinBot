@@ -16,7 +16,7 @@ namespace MunchkinBot
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Boni { get; set; }
+        public string Bonus { get; set; }
         public string Events { get; set; }
     }
 }

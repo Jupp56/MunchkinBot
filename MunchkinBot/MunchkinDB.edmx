@@ -33,7 +33,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" />
-    <Property Name="Boni" Type="nvarchar" Nullable="true" />
+    <Property Name="Bonus" Type="nvarchar" Nullable="true" />
     <Property Name="Events" Type="nvarchar" Nullable="true" />
   </EntityType>
 </Schema></edmx:StorageModels>
@@ -68,7 +68,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="Boni" Type="String" Nullable="true" />
+          <Property Name="Bonus" Type="String" Nullable="true" />
           <Property Name="Events" Type="String" Nullable="true" />
         </EntityType>
       </Schema>
@@ -101,7 +101,7 @@
         <MappingFragment StoreEntitySet="DungeonStock">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Boni" ColumnName="Boni" />
+          <ScalarProperty Name="Bonus" ColumnName="Bonus" />
           <ScalarProperty Name="Events" ColumnName="Events" />
         </MappingFragment>
       </EntityTypeMapping>
