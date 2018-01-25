@@ -4,11 +4,39 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Alias="Self" Namespace="DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
-        <EntityContainer Name="DBModelTargetContainer">
-        </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+    <Schema Namespace="DBModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DBModelStoreContainer">
+    <EntitySet Name="CardStock" EntityType="DBModel.Store.CardStock" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DungeonStock" EntityType="DBModel.Store.DungeonStock" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="CardStock">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="Count" Type="int" Nullable="false" DefaultValue="1" />
+    <Property Name="Level" Type="int" Nullable="true" />
+    <Property Name="Bonus" Type="nvarchar" Nullable="true" />
+    <Property Name="BadThings" Type="nvarchar" Nullable="true" />
+    <Property Name="Loot" Type="int" Nullable="true" />
+    <Property Name="LvUp" Type="int" Nullable="true" />
+    <Property Name="Events" Type="nvarchar" Nullable="true" />
+    <Property Name="Traits" Type="nvarchar" Nullable="true" />
+    <Property Name="Restrictions" Type="nvarchar" Nullable="true" />
+    <Property Name="React" Type="bit" Nullable="true" />
+  </EntityType>
+  <EntityType Name="DungeonStock">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" />
+    <Property Name="Boni" Type="nvarchar" Nullable="true" />
+    <Property Name="Events" Type="nvarchar" Nullable="true" />
+  </EntityType>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DBModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
@@ -47,13 +75,39 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
-        <Alias Key="Model" Value="DBModel" />
-        <Alias Key="Target" Value="DBModel.Store" />
-        <EntityContainerMapping CdmEntityContainer="DBModelContainer" StorageEntityContainer="DBModelTargetContainer">
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DBModelStoreContainer" CdmEntityContainer="DBModelContainer">
+    <EntitySetMapping Name="CardStock">
+      <EntityTypeMapping TypeName="IsTypeOf(DBModel.Card)">
+        <MappingFragment StoreEntitySet="CardStock">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Count" ColumnName="Count" />
+          <ScalarProperty Name="Level" ColumnName="Level" />
+          <ScalarProperty Name="Bonus" ColumnName="Bonus" />
+          <ScalarProperty Name="BadThings" ColumnName="BadThings" />
+          <ScalarProperty Name="Loot" ColumnName="Loot" />
+          <ScalarProperty Name="LvUp" ColumnName="LvUp" />
+          <ScalarProperty Name="Events" ColumnName="Events" />
+          <ScalarProperty Name="Traits" ColumnName="Traits" />
+          <ScalarProperty Name="Restrictions" ColumnName="Restrictions" />
+          <ScalarProperty Name="React" ColumnName="React" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DungeonStock">
+      <EntityTypeMapping TypeName="IsTypeOf(DBModel.Dungeon)">
+        <MappingFragment StoreEntitySet="DungeonStock">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Boni" ColumnName="Boni" />
+          <ScalarProperty Name="Events" ColumnName="Events" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -67,6 +121,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Kein" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
       </DesignerInfoPropertySet>
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
