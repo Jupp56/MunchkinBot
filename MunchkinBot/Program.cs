@@ -19,7 +19,6 @@ namespace MunchkinBot
 
             bool started = Program.startBot();
             
-
             if (started == false)
             {
                 Console.WriteLine("Es gab ein Problem mit dem Start des Bots. Entweder kann keine Verbindung zum Telegram-Server hergestellt werden, oder das Token ist falsch, oder...\nDetailiertere Fehlerbeschreibung oben.");
