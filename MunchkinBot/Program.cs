@@ -6,25 +6,21 @@ using System.Threading;
 using System.IO;
 using Telegram.Bot;
 using System.Data.Entity;
+using Microsoft.Win32;
 
 namespace MunchkinBot
 {
     class Program
     {
-        private static readonly TelegramBotClient Bot = new TelegramBotClient("523450690:AAHuwdKhWHIZwwndxQ1bWcktpL9kJqnEGR8"); //tokenabfrage noch nicht implementiert
+        private static TelegramBotClient Bot; // = new TelegramBotClient("523450690:AAHuwdKhWHIZwwndxQ1bWcktpL9kJqnEGR8"); //tokenabfrage noch nicht implementiert
         #region MAIN
         static void Main(string[] args)
-        {
-            Bot.OnMessage += Bot_OnMessage;
-            Bot.OnMessageEdited += Bot_OnMessage;
-            Bot.StartReceiving();
-            
-            Program Program = new Program();
+        {            
             Console.WriteLine("<Bot startet...>\n");
             Console.WriteLine("Munchkin Bot v. (alpha) 0.0.1 \n@Author: Olfi01 und SAvB\n\nNur zur privaten Verwendung! Munchkin: (c) Steve Jackson Games 2001 und Pegasus Spiele 2003 für die deutsche Übersetzung.\nAlle Rechte bleiben bei den entsprechenden Eigentümern\n");
 
-            bool started = Program.startBot();
-            
+            bool started = StartBot();
+
             if (started == false)
             {
                 Console.WriteLine("Es gab ein Problem mit dem Start des Bots. Entweder kann keine Verbindung zum Telegram-Server hergestellt werden, oder das Token ist falsch, oder...\nDetailiertere Fehlerbeschreibung oben.");
@@ -32,13 +28,15 @@ namespace MunchkinBot
                 Environment.Exit(1);
             }
 
+            Bot.OnMessage += Bot_OnMessage;
+            Bot.OnMessageEdited += Bot_OnMessage;
+
             Console.WriteLine("<Bot gestartet!>\n");
 
             
 
             Console.ReadKey();
-            Bot.StopReceiving();
-            stopBot();
+            StopBot();
             
             
         }
@@ -58,13 +56,27 @@ namespace MunchkinBot
 
         #region StartandStop
 
-        public bool startBot()
+        public static bool StartBot()
         {
             bool started = false;
             //Hier die Startüberprüfungen (Datenbank???)(Token überprüfen...)
+            //Token überprüft die lib selbst, no need to worry. Evtl. Bot.GetMe() für Funktionalität.
             try
             {
-                if (!File.Exists(Path.Combine(Environment.SpecialFolder.DesktopDirectory + "/testformunchkin/token.conf")))
+                var subkey = Registry.CurrentUser.CreateSubKey("MunchkinBot", true);
+                if (subkey.GetValue("Token") == null)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\n\nKein gespeichertes Telegram-Bot-Token gefunden. Bitte eingeben:\n");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    token = Console.ReadLine();
+                    subkey.SetValue("Token", token);
+                }
+                else
+                {
+                    token = (string)subkey.GetValue("Token");
+                }
+                /*if (!File.Exists(Path.Combine(Environment.SpecialFolder.DesktopDirectory + "/testformunchkin/token.conf")))
                 {
                     Directory.CreateDirectory(Path.Combine(Environment.SpecialFolder.DesktopDirectory + "/testformunchkin"));
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -77,7 +89,7 @@ namespace MunchkinBot
                 else
                 {
                     token = File.ReadAllText(Path.Combine(Environment.SpecialFolder.DesktopDirectory + "/testformunchkin/token.conf"));                                     
-                }
+                }*/
             }
             catch (Exception ex)
             {
@@ -94,17 +106,30 @@ namespace MunchkinBot
             else
             {
                 started = true;
+                try
+                {
+                    Bot = new TelegramBotClient(token);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Etwas stimmt nicht mit deinem Token! Fehler: {0}", ex);
+                    var subkey = Registry.CurrentUser.CreateSubKey("MunchkinBot", true);
+                    subkey.DeleteValue("Token");
+                    started = false;
+                }
             }
 
+            Bot.StartReceiving();
             Console.WriteLine(started.ToString());
             return started;
         }
 
-        static void stopBot()
+        static void StopBot()
         {
             //Cleanup-Zeug... falls da was sein sollte          
             Console.WriteLine("<Bot hält an...");
             Thread.Sleep(1000);
+            Bot.StopReceiving();
             Console.WriteLine("<Bot beendet>");
             Environment.Exit(0);
 
@@ -114,7 +139,7 @@ namespace MunchkinBot
 
         #region variables
 
-        string token = "0";
+        private static string token = "0";
 
         #endregion
     }
