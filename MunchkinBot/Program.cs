@@ -40,18 +40,51 @@ namespace MunchkinBot
             
             
         }
+        #endregion
 
+        #region messagehandler
         private static void Bot_OnMessage(object sender, Telegram.Bot.Args.MessageEventArgs e)
         {
             if (e.Message.Type == Telegram.Bot.Types.Enums.MessageType.TextMessage)
             {
-                
+
+                #region game commands
+
+                #endregion
+
+                #region extra commands
                 if (e.Message.Text=="someone there?")
                 {
                     Bot.SendTextMessageAsync(e.Message.Chat.Id, "Bot up and running... " + e.Message.Chat.FirstName + " " + e.Message.Chat.LastName);
                 }
+
+                if (e.Message.Text == "/start")
+                {
+                    if (gameRunning == true)
+                    {
+                        Bot.SendTextMessageAsync(e.Message.Chat.Id, "Game already running!" + e.Message.Chat.FirstName + " " + e.Message.Chat.LastName);                        
+                    }
+                    else
+                    {
+
+                    }
+
+                }
+                #endregion
+
+                #region no command
+                
+                //eingehende Nachricht an die anderen Spieler weiterleiten? Oder kommt der Bot in eine Gruppe?
+
+                #endregion
+
+            }
+            else
+            {
+                Bot.SendTextMessageAsync(e.Message.Chat.Id, "Es werden keine anderen Nachrichten als Textnachrichten unterstützt!");
             }
         }
+
         #endregion
 
         #region StartandStop
@@ -140,6 +173,7 @@ namespace MunchkinBot
         #region variables
 
         private static string token = "0";
+        public static bool gameRunning;
 
         #endregion
     }
