@@ -13,9 +13,14 @@ namespace MunchkinBot
     class Program
     {
         private static TelegramBotClient Bot; // = new TelegramBotClient("523450690:AAHuwdKhWHIZwwndxQ1bWcktpL9kJqnEGR8"); //tokenabfrage noch nicht implementiert
+
+        //private static MunchkinDB db = new MunchkinDB("");
+
         #region MAIN
         static void Main(string[] args)
-        {            
+        {
+            
+            Console.WriteLine(@"C:\users\" + Environment.UserName + @"\test");
             Console.WriteLine("<Bot startet...>\n");
             Console.WriteLine("Munchkin Bot v. (alpha) 0.0.1 \n@Author: Olfi01 und SAvB\n\nNur zur privaten Verwendung! Munchkin: (c) Steve Jackson Games 2001 und Pegasus Spiele 2003 für die deutsche Übersetzung.\nAlle Rechte bleiben bei den entsprechenden Eigentümern\n");
 

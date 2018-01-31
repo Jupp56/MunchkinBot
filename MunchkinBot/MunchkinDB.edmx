@@ -61,6 +61,7 @@
           <Property Name="Traits" Type="String" Nullable="true" />
           <Property Name="Restrictions" Type="String" Nullable="true" />
           <Property Name="React" Type="Boolean" Nullable="true" />
+          <Property Name="Description" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="Dungeon">
           <Key>
@@ -68,9 +69,13 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="Bonus" Type="String" Nullable="true" />
           <Property Name="Events" Type="String" Nullable="true" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <Property Name="Bonus" Type="DBModel.Bonus" Nullable="false" />
+          
         </EntityType>
+        <ComplexType Name="Bonus">
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -101,7 +106,6 @@
         <MappingFragment StoreEntitySet="DungeonStock">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Bonus" ColumnName="Bonus" />
           <ScalarProperty Name="Events" ColumnName="Events" />
         </MappingFragment>
       </EntityTypeMapping>
