@@ -10,21 +10,8 @@
 namespace MunchkinBot
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Dungeon
+    public partial class Bonus
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Dungeon()
-        {
-            this.Bonus = new Bonus();
-        }
-    
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Events { get; set; }
-        public string Description { get; set; }
-    
-        public Bonus Bonus { get; set; }
     }
 }

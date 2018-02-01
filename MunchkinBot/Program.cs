@@ -14,7 +14,7 @@ namespace MunchkinBot
     {
         private static TelegramBotClient Bot; // = new TelegramBotClient("523450690:AAHuwdKhWHIZwwndxQ1bWcktpL9kJqnEGR8"); //tokenabfrage noch nicht implementiert
 
-        //private static MunchkinDB db = new MunchkinDB("");
+        private static MunchkinDB db = new MunchkinDB(@"C:\Users\Nick\Documents\Visual Studio 2015\Projects\MunchkinBot\MunchkinBot\MunchkinDB.edmx.sql");
 
         #region MAIN
         static void Main(string[] args)

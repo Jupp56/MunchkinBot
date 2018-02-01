@@ -33,5 +33,6 @@ namespace MunchkinBot
         public string Traits { get; set; }
         public string Restrictions { get; set; }
         public Nullable<bool> React { get; set; }
+        public string Description { get; set; }
     }
 }

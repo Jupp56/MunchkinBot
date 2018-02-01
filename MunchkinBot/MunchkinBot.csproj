@@ -73,8 +73,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bonus.cs">
+      <DependentUpon>MunchkinDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Card.cs">
-      <DependentUpon>MunchkinContext.tt</DependentUpon>
+      <DependentUpon>MunchkinDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MunchkinDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MunchkinDB.Context.tt</DependentUpon>
     </Compile>
     <Compile Include="MunchkinDB.cs" />
     <Compile Include="MunchkinDB.Designer.cs">
@@ -83,7 +91,7 @@
       <DependentUpon>MunchkinDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Dungeon.cs">
-      <DependentUpon>MunchkinContext.tt</DependentUpon>
+      <DependentUpon>MunchkinDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Kartenstack.cs" />
     <Compile Include="MunchkinContext.Context.cs">
@@ -95,6 +103,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MunchkinContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MunchkinDB1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MunchkinDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -119,6 +132,17 @@
     <Content Include="MunchkinContext.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MunchkinContext.cs</LastGenOutput>
+      <DependentUpon>MunchkinDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="MunchkinDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MunchkinDB.Context.cs</LastGenOutput>
+      <DependentUpon>MunchkinDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="MunchkinDB.edmx.sql" />
+    <Content Include="MunchkinDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MunchkinDB1.cs</LastGenOutput>
       <DependentUpon>MunchkinDB.edmx</DependentUpon>
     </Content>
   </ItemGroup>
