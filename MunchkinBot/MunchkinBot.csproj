@@ -94,11 +94,6 @@
       <DependentUpon>MunchkinDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Kartenstack.cs" />
-    <Compile Include="MunchkinContext.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MunchkinContext.Context.tt</DependentUpon>
-    </Compile>
     <Compile Include="MunchkinContext.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -124,11 +119,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MunchkinContext.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MunchkinContext.Context.cs</LastGenOutput>
-      <DependentUpon>MunchkinDB.edmx</DependentUpon>
-    </Content>
     <Content Include="MunchkinContext.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MunchkinContext.cs</LastGenOutput>
@@ -139,7 +129,6 @@
       <LastGenOutput>MunchkinDB.Context.cs</LastGenOutput>
       <DependentUpon>MunchkinDB.edmx</DependentUpon>
     </Content>
-    <Content Include="MunchkinDB.edmx.sql" />
     <Content Include="MunchkinDB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MunchkinDB1.cs</LastGenOutput>

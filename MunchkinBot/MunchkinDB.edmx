@@ -72,7 +72,6 @@
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="Events" Type="String" Nullable="true" />
           <Property Name="Description" Type="String" Nullable="false" />
-          <Property Name="Bonus" Type="DBModel.Bonus" Nullable="false" />
           
         </EntityType>
         <ComplexType Name="Bonus">
