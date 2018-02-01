@@ -73,12 +73,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bonus.cs">
-      <DependentUpon>MunchkinDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Card.cs">
       <DependentUpon>MunchkinDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Encoded\Bonus.cs" />
+    <Compile Include="Encoded\Targets.cs" />
     <Compile Include="MunchkinDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -113,6 +112,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>MunchkinDB.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="cardDb.sqlc" />
     <None Include="MunchkinDB.edmx.diagram">
       <DependentUpon>MunchkinDB.edmx</DependentUpon>
     </None>

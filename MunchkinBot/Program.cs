@@ -12,14 +12,14 @@ namespace MunchkinBot
 {
     class Program
     {
+        private const string dbFileName = "cardDb.sqlc";
         private static TelegramBotClient Bot; // = new TelegramBotClient("523450690:AAHuwdKhWHIZwwndxQ1bWcktpL9kJqnEGR8"); //tokenabfrage noch nicht implementiert
 
-        private static MunchkinDB db = new MunchkinDB(@"C:\Users\Nick\Documents\Visual Studio 2015\Projects\MunchkinBot\MunchkinBot\MunchkinDB.edmx.sql");
+        private static MunchkinDB db;// = new MunchkinDB(@"C:\Users\Nick\Documents\Visual Studio 2015\Projects\MunchkinBot\MunchkinBot\MunchkinDB.edmx.sql");
 
         #region MAIN
         static void Main(string[] args)
         {
-            
             Console.WriteLine(@"C:\users\" + Environment.UserName + @"\test");
             Console.WriteLine("<Bot startet...>\n");
             Console.WriteLine("Munchkin Bot v. (alpha) 0.0.1 \n@Author: Olfi01 und SAvB\n\nNur zur privaten Verwendung! Munchkin: (c) Steve Jackson Games 2001 und Pegasus Spiele 2003 für die deutsche Übersetzung.\nAlle Rechte bleiben bei den entsprechenden Eigentümern\n");
@@ -97,6 +97,9 @@ namespace MunchkinBot
         public static bool StartBot()
         {
             bool started = false;
+
+            db = new MunchkinDB(dbFileName);
+            //TODO: Eine weitere Datenbank für Spiele, Nutzer und Gruppen anlegen im AppData\Roaming\MunchkinBot Ordner
             //Hier die Startüberprüfungen (Datenbank???)(Token überprüfen...)
             //Token überprüft die lib selbst, no need to worry. Evtl. Bot.GetMe() für Funktionalität.
             try
@@ -178,7 +181,7 @@ namespace MunchkinBot
         #region variables
 
         private static string token = "0";
-        public static bool gameRunning;
+        public static bool gameRunning; //willst du dass man nur ein spiel gleichzeitig spielen kann egal in welcher gruppe??
 
         #endregion
     }

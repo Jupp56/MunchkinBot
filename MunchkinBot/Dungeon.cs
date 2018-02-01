@@ -18,5 +18,6 @@ namespace MunchkinBot
         public string Name { get; set; }
         public string Events { get; set; }
         public string Description { get; set; }
+        public string Bonus { get; set; }
     }
 }
