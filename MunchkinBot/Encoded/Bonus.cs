@@ -26,5 +26,9 @@
                 boni[index] = value;
             }
         }
+
+        public short All => this[Targets.All];
+        public short AllNotSpecified => this[Targets.AllNotSpecified];
+        public short Human => this[Targets.Human];
     }
 }
