@@ -182,6 +182,7 @@ namespace MunchkinBot
 
         private static string token = "0";
         public static bool gameRunning; //willst du dass man nur ein spiel gleichzeitig spielen kann egal in welcher gruppe??
+        //Alles andere wäre anfangs noch komplizierter...
 
         #endregion
     }

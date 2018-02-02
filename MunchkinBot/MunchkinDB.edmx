@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DBModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="DBModelStoreContainer">
     <EntitySet Name="CardStock" EntityType="DBModel.Store.CardStock" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DungeonStock" EntityType="DBModel.Store.DungeonStock" store:Type="Tables" Schema="dbo" />
@@ -14,29 +14,29 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Type" Type="int" Nullable="false" />
     <Property Name="Count" Type="int" Nullable="false" DefaultValue="1" />
     <Property Name="Level" Type="int" Nullable="true" />
-    <Property Name="Bonus" Type="nvarchar" Nullable="true" />
-    <Property Name="BadThings" Type="nvarchar" Nullable="true" />
+    <Property Name="Bonus" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="BadThings" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Loot" Type="int" Nullable="true" />
     <Property Name="LvUp" Type="int" Nullable="true" />
-    <Property Name="Events" Type="nvarchar" Nullable="true" />
-    <Property Name="Traits" Type="nvarchar" Nullable="true" />
-    <Property Name="Restrictions" Type="nvarchar" Nullable="true" />
+    <Property Name="Events" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Traits" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Restrictions" Type="nvarchar(max)" Nullable="true" />
     <Property Name="React" Type="bit" Nullable="true" />
-    <Property Name="Description" Type="nvarchar" Nullable="true" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="DungeonStock">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" />
-    <Property Name="Events" Type="nvarchar" Nullable="true" />
-    <Property Name="Description" Type="nvarchar" Nullable="true" />
-    <Property Name="Bonus" Type="nvarchar" Nullable="true" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Events" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Bonus" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->

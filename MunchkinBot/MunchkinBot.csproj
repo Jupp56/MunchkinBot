@@ -129,6 +129,7 @@
       <LastGenOutput>MunchkinDB.Context.cs</LastGenOutput>
       <DependentUpon>MunchkinDB.edmx</DependentUpon>
     </Content>
+    <Content Include="MunchkinDB.edmx.sql" />
     <Content Include="MunchkinDB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MunchkinDB1.cs</LastGenOutput>
