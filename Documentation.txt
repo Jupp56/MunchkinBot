@@ -1,0 +1,7 @@
+Documentation for the Munchkin Bot by Jupp56 and Olfi01
+
+Inserting new cards:
+
+New cards have to be inserted into the sql card database.
+They have different attributes to specify their behaviour. Some Cards (especially some of the advanced actions) may be not possible just to code via database arguments.
+If you want to contribute to fitting them in, feel free to alter our code and make a push request, we thank you in advance for every contribution.
