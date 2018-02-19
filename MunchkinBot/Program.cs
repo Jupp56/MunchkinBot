@@ -7,16 +7,22 @@ using System.IO;
 using Telegram.Bot;
 using System.Data.Entity;
 using Microsoft.Win32;
+using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types;
 
 namespace MunchkinBot
 {
     class Program
     {
+        #region variables
         private const string dbFileName = "cardDb.sqlc";
         private static TelegramBotClient Bot; // = new TelegramBotClient("523450690:AAHuwdKhWHIZwwndxQ1bWcktpL9kJqnEGR8"); //tokenabfrage noch nicht implementiert
 
         private static MunchkinDB db;// = new MunchkinDB(@"C:\Users\Nick\Documents\Visual Studio 2015\Projects\MunchkinBot\MunchkinBot\MunchkinDB.edmx.sql");
-
+        private static string token;
+        private static string botUsername = "";
+        private static Dictionary<string, Action<Message>> commands = new Dictionary<string, Action<Message>>();
+        #endregion
         #region MAIN
         static void Main(string[] args)
         {
@@ -33,6 +39,7 @@ namespace MunchkinBot
                 Environment.Exit(1);
             }
 
+            InitCommands();
             Bot.OnMessage += Bot_OnMessage;
             Bot.OnMessageEdited += Bot_OnMessage;
 
@@ -53,27 +60,20 @@ namespace MunchkinBot
             if (e.Message.Type == Telegram.Bot.Types.Enums.MessageType.TextMessage)
             {
 
-                #region game commands
-
+                #region commands
+                if (e.Message.Entities.Any(x => x.Type == MessageEntityType.BotCommand && x.Offset == 0))
+                {
+                    int entityIndex = e.Message.Entities.FindIndex(x => x.Type == MessageEntityType.BotCommand && x.Offset == 0);
+                    string command = e.Message.EntityValues[entityIndex];
+                    if (command.EndsWith($"@{botUsername}")) command = command.Remove(command.LastIndexOf($"@{botUsername}"));
+                    if (commands.ContainsKey(command)) commands[command].Invoke(e.Message);
+                }
                 #endregion
 
                 #region extra commands
                 if (e.Message.Text=="someone there?")
                 {
                     Bot.SendTextMessageAsync(e.Message.Chat.Id, "Bot up and running... " + e.Message.Chat.FirstName + " " + e.Message.Chat.LastName);
-                }
-
-                if (e.Message.Text == "/start")
-                {
-                    if (gameRunning == true)
-                    {
-                        Bot.SendTextMessageAsync(e.Message.Chat.Id, "Game already running!" + e.Message.Chat.FirstName + " " + e.Message.Chat.LastName);                        
-                    }
-                    else
-                    {
-
-                    }
-
                 }
                 #endregion
 
@@ -160,7 +160,9 @@ namespace MunchkinBot
                 }
             }
 
+            botUsername = Bot.GetMeAsync().Result.Username;
             Bot.StartReceiving();
+
             Console.WriteLine(started.ToString());
             return started;
         }
@@ -178,11 +180,16 @@ namespace MunchkinBot
 
         #endregion
 
-        #region variables
+        #region Commands
+        private static void InitCommands()
+        {
+            commands.Add("/start", StartCommand);
+        }
 
-        private static string token = "0";
-        public static bool gameRunning; //willst du dass man nur ein spiel gleichzeitig spielen kann egal in welcher gruppe??
-
+        private static void StartCommand(Message msg)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 
