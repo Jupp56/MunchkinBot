@@ -23,6 +23,7 @@ namespace MunchkinBot
         private static string botUsername = "";
         private static Dictionary<string, Action<Message>> commands = new Dictionary<string, Action<Message>>();
         #endregion
+
         #region MAIN
         static void Main(string[] args)
         {
