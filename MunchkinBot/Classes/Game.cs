@@ -21,6 +21,7 @@ namespace MunchkinBot.Classes
         public Stack TreasureStack;
         public event EventHandler<string> SendMessage;
         private static TelegramBotClient Bot; //do we do this from here?
+        private Card ActiveDoorCard = new Card();
 
         #endregion
 
@@ -31,10 +32,21 @@ namespace MunchkinBot.Classes
             
             DoorStack = new Stack(DoorPile, StackType.Door);
             DoorStack.SendMessage += SendMessage;
+            DoorStack.Shuffle();
             TreasureStack = new Stack(TreasurePile, StackType.Treasure);
             TreasureStack.SendMessage += SendMessage;
+            TreasureStack.Shuffle();
             Players = PlayerIDs;
             SendStartingMessage();
+
+        }
+
+        private void NextPlayer(Player p)
+        {
+            ActiveDoorCard = DoorStack.TakeFirst();
+            p.ComputeAttackValue();
+
+            //room for special cards like 
 
         }
 
@@ -42,7 +54,7 @@ namespace MunchkinBot.Classes
         {
             foreach (Player p in Players) //does it work like this?
             {
-                Bot.SendTextMessageAsync(p.ToString(), "Hallo! Willkommen zum MunchkinBot. Du hast erfolgreich das Spiel betreten!"); //text is subject to change
+                Bot.SendTextMessageAsync(p.Id.ToString(), "Hallo! Willkommen zum MunchkinBot. Du hast erfolgreich das Spiel betreten!"); //text is subject to change
             }
         }
 
