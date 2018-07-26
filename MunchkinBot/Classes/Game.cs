@@ -7,6 +7,7 @@ using TelegramBotApi;
 using TelegramBotApi.Enums;
 using TelegramBotApi.Types;
 using TelegramBotApi.Types.Events;
+using Microsoft.Win32;
 
 
 namespace MunchkinBot.Classes
@@ -16,6 +17,7 @@ namespace MunchkinBot.Classes
         #region variables
 
         public long GroupId { get; set; }
+        public string Token { get; set; }
         public List<Player> Players = new List<Player>();
         public Pile DoorPile = new Pile();
         public Pile TreasurePile = new Pile();
@@ -24,21 +26,42 @@ namespace MunchkinBot.Classes
         public event EventHandler<string> SendMessage;
         private static TelegramBot Bot; //do we do this from here?
         private Card ActiveDoorCard = new Card();
+        private bool started;
+        private string botUsername;
 
         #endregion
 
         #region constructor
 
-        public Game(List<Player> PlayerIDs)
+        public Game(List<long> PlayerIDs, long GroupId)
         {
-            
+            Console.WriteLine("started new game");
+            this.GroupId = GroupId;
+            //Players = PlayerIDs;
+            foreach (long l in PlayerIDs)
+            {
+                Player p = new Player();
+                p.Id = l;
+                p.Level = 1;
+                p.AttackValue = 0;
+                Players.Add(p);
+            }
+
+            Console.WriteLine("Players:");
+            foreach (Player p in Players)
+            {
+                Console.WriteLine("PlayerId: {0}, Playerlevel: {1}", p.Id, p.Level);
+            }
+
+            StartRecieving();
+
             DoorStack = new Stack(DoorPile, StackType.Door);
             DoorStack.SendMessage += SendMessage;
             DoorStack.Shuffle();
             TreasureStack = new Stack(TreasurePile, StackType.Treasure);
             TreasureStack.SendMessage += SendMessage;
             TreasureStack.Shuffle();
-            Players = PlayerIDs;
+            
             SendStartingMessage();
 
         }
@@ -54,12 +77,69 @@ namespace MunchkinBot.Classes
 
         private void SendStartingMessage()
         {
-            foreach (Player p in Players) //does it work like this?
+            Console.WriteLine("sending messages");
+            foreach (Player p in Players)
             {
-                Bot.SendTextMessageAsync(p.Id.ToString(), "Hallo! Willkommen zum MunchkinBot. Du hast erfolgreich das Spiel betreten!"); //text is subject to change
+                Console.WriteLine("one more");
+                Bot.SendTextMessageAsync(296451593275094601, "Hallo! Willkommen zum MunchkinBot. Du hast erfolgreich das Spiel betreten!");
+                
             }
         }
 
-        #endregion
+        private bool StartRecieving()
+        {
+            try
+            {
+                var subkey = Registry.CurrentUser.CreateSubKey("MunchkinBot", true);
+                if (subkey.GetValue("Token") == null)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\n\nKein gespeichertes Telegram-Bot-Token gefunden. Bitte eingeben:\n");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Token = Console.ReadLine();
+                    subkey.SetValue("Token", Token);
+                }
+                else
+                {
+                    Token = (string)subkey.GetValue("Token");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("\n<Error> Fehler beim Lesen des Tokens! Fehler: {0}", ex);
+                Token = "Fehler";
+            }
+
+            Console.Write("\n{0}\n", Token);
+
+            if (Token == "Fehler")
+            {
+                started = false;
+            }
+            else
+            {
+                started = true;
+                try
+                {
+                    Bot = new TelegramBot(Token);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Etwas stimmt nicht mit deinem Token! Fehler: {0}", ex);
+                    var subkey = Registry.CurrentUser.CreateSubKey("MunchkinBot", true);
+                    subkey.DeleteValue("Token");
+                    started = false;
+                }
+            }
+
+            botUsername = Bot.GetMeAsync().Result.Username;
+            Bot.StartReceiving();
+
+            Console.WriteLine(started.ToString());
+            return started;
+        }
     }
+        #endregion
+    
 }

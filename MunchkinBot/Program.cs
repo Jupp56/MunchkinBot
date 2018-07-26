@@ -24,6 +24,7 @@ namespace MunchkinBot
         private static string token;
         private static string botUsername = "";
         private static Dictionary<string, Action<Message>> commands = new Dictionary<string, Action<Message>>();
+        public 
         #endregion
 
         #region command dictionary
@@ -67,7 +68,8 @@ namespace MunchkinBot
             if (e.Message.Type == MessageType.Text)
             {
 
-                #region commands
+                #region command
+                //bug: does not recognize commands at all
                 if (e.Message.Entities.Any(x => x.Type == MessageEntityType.BotCommand && x.Offset == 0 && x.Value != null))
                 {
                     //int entityIndex = e.Message.Entities.Find(x => x.Type == MessageEntityType.BotCommand && x.Offset == 0).Value;
@@ -76,7 +78,8 @@ namespace MunchkinBot
                     
                     if (command.EndsWith($"@{botUsername}")) command = command.Remove(command.LastIndexOf($"@{botUsername}"));
                     if (commands.ContainsKey(command)) commands[command].Invoke(e.Message);
-                   
+                    Console.Write(command);
+                    
                     
                 }
                 #endregion
@@ -86,11 +89,20 @@ namespace MunchkinBot
                 {
                     Bot.SendTextMessageAsync(e.Message.Chat.Id, "Bot up and running... " + e.Message.Chat.FirstName + " " + e.Message.Chat.LastName);
                 }
+                //to be deleted, only testing
+                if (e.Message.Text == "/start")
+                {
+                    Console.WriteLine("startingnewgame");
+                    List<long> pid = new List<long>();
+                    pid.Add(296451593275094601);
+                    Classes.Game g = new Classes.Game(pid, e.Message.Chat.Id);
+                }
+                if (e.Message.Text == "myID") Console.Write(e.Message.Chat.Id);
                 #endregion
 
                 #region no command
-                
-                
+
+
 
                 #endregion
 
@@ -128,20 +140,7 @@ namespace MunchkinBot
                 {
                     token = (string)subkey.GetValue("Token");
                 }
-                /*if (!File.Exists(Path.Combine(Environment.SpecialFolder.DesktopDirectory + "/testformunchkin/token.conf")))
-                {
-                    Directory.CreateDirectory(Path.Combine(Environment.SpecialFolder.DesktopDirectory + "/testformunchkin"));
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\n\nKein gespeichertes Telegram-Bot-Token gefunden. Bitte eingeben:\n");
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                    token = Console.ReadLine();
-                    File.WriteAllText(Environment.SpecialFolder.DesktopDirectory + "/testformunchkin/token.conf", token);
-                }
-
-                else
-                {
-                    token = File.ReadAllText(Path.Combine(Environment.SpecialFolder.DesktopDirectory + "/testformunchkin/token.conf"));                                     
-                }*/
+                
             }
             catch (Exception ex)
             {
