@@ -122,6 +122,7 @@ namespace MunchkinBot
                     if (e.Message.Chat.Type == ChatType.Group)
                     {
                         //sorts players by the groups they posted /join in so they are recognized correctly
+                        playerIds.RemoveAll(x => x.PlayerID == e.Message.From.Id);
                         playerIds.Add(new Lobbyplayer() { PlayerID = e.Message.From.Id, GroupID = e.Message.Chat.Id });
                         Console.WriteLine("Player joined, ID: {0}, groupid: {1}", e.Message.From.Id, e.Message.Chat.Id);
                     }
