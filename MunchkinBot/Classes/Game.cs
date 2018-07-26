@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Telegram.Bot;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types;
+using TelegramBotApi;
+using TelegramBotApi.Enums;
+using TelegramBotApi.Types;
+using TelegramBotApi.Types.Events;
+
 
 namespace MunchkinBot.Classes
 {
@@ -20,7 +22,7 @@ namespace MunchkinBot.Classes
         public Stack DoorStack;
         public Stack TreasureStack;
         public event EventHandler<string> SendMessage;
-        private static TelegramBotClient Bot; //do we do this from here?
+        private static TelegramBot Bot; //do we do this from here?
         private Card ActiveDoorCard = new Card();
 
         #endregion

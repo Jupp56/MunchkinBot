@@ -4,24 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.IO;
-using Telegram.Bot;
+using TelegramBotApi;
+using TelegramBotApi.Enums;
+using TelegramBotApi.Types;
+using TelegramBotApi.Types.Exceptions;
+using TelegramBotApi.Types.Game;
 using System.Data.Entity;
 using Microsoft.Win32;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types;
+using TelegramBotApi.Types.Events;
 
 namespace MunchkinBot
 {
     class Program
     {
-        #region variables
+        #region variables and constants
         private const string dbFileName = "cardDb.sqlc";
-        private static TelegramBotClient Bot; // = new TelegramBotClient("523450690:AAHuwdKhWHIZwwndxQ1bWcktpL9kJqnEGR8"); //tokenabfrage noch nicht implementiert
-
+        private static TelegramBot Bot;
         private static MunchkinDB db;// = new MunchkinDB(@"C:\Users\Nick\Documents\Visual Studio 2015\Projects\MunchkinBot\MunchkinBot\MunchkinDB.edmx.sql");
         private static string token;
         private static string botUsername = "";
         private static Dictionary<string, Action<Message>> commands = new Dictionary<string, Action<Message>>();
+        #endregion
+
+        #region command dictionary
+
         #endregion
 
         #region MAIN
@@ -42,7 +48,7 @@ namespace MunchkinBot
 
             InitCommands();
             Bot.OnMessage += Bot_OnMessage;
-            Bot.OnMessageEdited += Bot_OnMessage;
+            
 
             Console.WriteLine("<Bot gestartet!>\n");
 
@@ -56,18 +62,22 @@ namespace MunchkinBot
         #endregion
 
         #region messagehandler
-        private static void Bot_OnMessage(object sender, Telegram.Bot.Args.MessageEventArgs e)
+        private static void Bot_OnMessage(object sender, MessageEventArgs e)
         {
-            if (e.Message.Type == Telegram.Bot.Types.Enums.MessageType.TextMessage)
+            if (e.Message.Type == MessageType.Text)
             {
 
                 #region commands
-                if (e.Message.Entities.Any(x => x.Type == MessageEntityType.BotCommand && x.Offset == 0))
+                if (e.Message.Entities.Any(x => x.Type == MessageEntityType.BotCommand && x.Offset == 0 && x.Value != null))
                 {
-                    int entityIndex = e.Message.Entities.FindIndex(x => x.Type == MessageEntityType.BotCommand && x.Offset == 0);
-                    string command = e.Message.EntityValues[entityIndex];
+                    //int entityIndex = e.Message.Entities.Find(x => x.Type == MessageEntityType.BotCommand && x.Offset == 0).Value;
+                    
+                    string command = e.Message.Entities.FirstOrDefault(x => x.Type == MessageEntityType.BotCommand && x.Offset == 0).Value;
+                    
                     if (command.EndsWith($"@{botUsername}")) command = command.Remove(command.LastIndexOf($"@{botUsername}"));
                     if (commands.ContainsKey(command)) commands[command].Invoke(e.Message);
+                   
+                    
                 }
                 #endregion
 
@@ -80,14 +90,14 @@ namespace MunchkinBot
 
                 #region no command
                 
-                //eingehende Nachricht an die anderen Spieler weiterleiten? Oder kommt der Bot in eine Gruppe?
+                
 
                 #endregion
 
             }
             else
             {
-                Bot.SendTextMessageAsync(e.Message.Chat.Id, "Es werden keine anderen Nachrichten als Textnachrichten unterstützt!");
+                //Bot.SendTextMessageAsync(e.Message.Chat.Id, "Es werden keine anderen Nachrichten als Textnachrichten unterstützt!");
             }
         }
 
@@ -150,7 +160,7 @@ namespace MunchkinBot
                 started = true;
                 try
                 {
-                    Bot = new TelegramBotClient(token);
+                    Bot = new TelegramBot(token);
                 }
                 catch (Exception ex)
                 {
@@ -170,8 +180,18 @@ namespace MunchkinBot
 
         static void StopBot()
         {
-            //Cleanup-Zeug... falls da was sein sollte          
-            Console.WriteLine("<Bot hält an...");
+            //Cleanup-stuff
+
+            if(allcurrentchats != null)
+            {
+                foreach (string s in allcurrentchats)
+                {
+                    Bot.SendTextMessageAsync(s, "Bot stopped"); //not implemented yet
+                }
+            }
+
+            
+            Console.WriteLine("<Bot hält an...>");
             Thread.Sleep(1000);
             Bot.StopReceiving();
             Console.WriteLine("<Bot beendet>");
@@ -192,6 +212,9 @@ namespace MunchkinBot
             throw new NotImplementedException();
         }
         #endregion
+
+        public static List<string> allcurrentchats = new List<string>(); //nowhere implemented yet
+
     }
 
 }
