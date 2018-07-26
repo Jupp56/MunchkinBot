@@ -54,6 +54,7 @@ namespace MunchkinBot.Classes
             }
 
             StartRecieving();
+           
 
             DoorStack = new Stack(DoorPile, StackType.Door);
             DoorStack.SendMessage += SendMessage;
@@ -81,7 +82,7 @@ namespace MunchkinBot.Classes
             foreach (Player p in Players)
             {
                 Console.WriteLine("one more");
-                Bot.SendTextMessageAsync(296451593275094601, "Hallo! Willkommen zum MunchkinBot. Du hast erfolgreich das Spiel betreten!");
+                Bot.SendTextMessageAsync(296451593275094601, "Hallo! Willkommen zum MunchkinBot. Du hast erfolgreich das Spiel betreten!").Wait();
                 
             }
         }
@@ -135,6 +136,7 @@ namespace MunchkinBot.Classes
 
             botUsername = Bot.GetMeAsync().Result.Username;
             Bot.StartReceiving();
+            Bot.SendTextMessageAsync(296451593275094601, "Hallo! Willkommen zum MunchkinBot. Du hast erfolgreich das Spiel betreten!").Wait();
 
             Console.WriteLine(started.ToString());
             return started;
