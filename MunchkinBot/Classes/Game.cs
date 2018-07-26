@@ -35,7 +35,7 @@ namespace MunchkinBot.Classes
 
         public Game(List<long> PlayerIDs, long GroupId)
         {
-            Console.WriteLine("started new game");
+            Console.WriteLine("starting new game");
             this.GroupId = GroupId;
             //Players = PlayerIDs;
             foreach (long l in PlayerIDs)
@@ -47,14 +47,16 @@ namespace MunchkinBot.Classes
                 Players.Add(p);
             }
 
+            StartRecieving();
+
+            Bot.OnMessage += Bot_OnMessage;
+
             Console.WriteLine("Players:");
             foreach (Player p in Players)
             {
                 Console.WriteLine("PlayerId: {0}, Playerlevel: {1}", p.Id, p.Level);
+                
             }
-
-            StartRecieving();
-           
 
             DoorStack = new Stack(DoorPile, StackType.Door);
             DoorStack.SendMessage += SendMessage;
@@ -65,6 +67,10 @@ namespace MunchkinBot.Classes
             
             SendStartingMessage();
 
+        }
+
+        private static void Bot_OnMessage(object sender, MessageEventArgs e)
+        {
         }
 
         private void NextPlayer(Player p)
@@ -78,12 +84,11 @@ namespace MunchkinBot.Classes
 
         private void SendStartingMessage()
         {
-            Console.WriteLine("sending messages");
+            Console.WriteLine("sending game started messages");
             foreach (Player p in Players)
             {
-                Console.WriteLine("one more");
-                Bot.SendTextMessageAsync(296451593275094601, "Hallo! Willkommen zum MunchkinBot. Du hast erfolgreich das Spiel betreten!").Wait();
-                
+                Console.WriteLine("To: {0}",p.Id);
+                Bot.SendTextMessageAsync(p.Id, "Hallo! Willkommen zum MunchkinBot. Du hast erfolgreich das Spiel betreten, welches soeben gestartet ist!").Wait();
             }
         }
 
@@ -136,7 +141,7 @@ namespace MunchkinBot.Classes
 
             botUsername = Bot.GetMeAsync().Result.Username;
             Bot.StartReceiving();
-            Bot.SendTextMessageAsync(296451593275094601, "Hallo! Willkommen zum MunchkinBot. Du hast erfolgreich das Spiel betreten!").Wait();
+            
 
             Console.WriteLine(started.ToString());
             return started;

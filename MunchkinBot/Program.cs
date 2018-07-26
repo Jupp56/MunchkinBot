@@ -15,6 +15,13 @@ using TelegramBotApi.Types.Events;
 
 namespace MunchkinBot
 {
+    class Lobbyplayer
+    {
+        //for sorting players in the lobby into the respective groups they posted their /join in
+        public long GroupID { get; set; }
+        public long PlayerID { get; set; }
+    }
+
     class Program
     {
         #region variables and constants
@@ -24,7 +31,9 @@ namespace MunchkinBot
         private static string token;
         private static string botUsername = "";
         private static Dictionary<string, Action<Message>> commands = new Dictionary<string, Action<Message>>();
-        public 
+        private static List<Lobbyplayer> playerIds = new List<Lobbyplayer>();
+        
+        
         #endregion
 
         #region command dictionary
@@ -34,9 +43,10 @@ namespace MunchkinBot
         #region MAIN
         static void Main(string[] args)
         {
-            Console.WriteLine(@"C:\users\" + Environment.UserName + @"\test");
-            Console.WriteLine("<Bot startet...>\n");
+            
+            
             Console.WriteLine("Munchkin Bot v. (alpha) 0.0.1 \n@Author: Olfi01 und SAvB\n\nNur zur privaten Verwendung! Munchkin: (c) Steve Jackson Games 2001 und Pegasus Spiele 2003 für die deutsche Übersetzung.\nAlle Rechte bleiben bei den entsprechenden Eigentümern\n");
+            Console.WriteLine("<Bot startet...>\n");
 
             bool started = StartBot();
 
@@ -52,8 +62,6 @@ namespace MunchkinBot
             
 
             Console.WriteLine("<Bot gestartet!>\n");
-
-            
 
             Console.ReadKey();
             StopBot();
@@ -78,7 +86,7 @@ namespace MunchkinBot
                     
                     if (command.EndsWith($"@{botUsername}")) command = command.Remove(command.LastIndexOf($"@{botUsername}"));
                     if (commands.ContainsKey(command)) commands[command].Invoke(e.Message);
-                    Console.Write(command);
+                    Console.Write("command: {0}", command);
                     
                     
                 }
@@ -90,14 +98,36 @@ namespace MunchkinBot
                     Bot.SendTextMessageAsync(e.Message.Chat.Id, "Bot up and running... " + e.Message.Chat.FirstName + " " + e.Message.Chat.LastName);
                 }
                 //to be deleted, only testing
-                if (e.Message.Text == "/start")
+                if (e.Message.Text == "/startgame")
                 {
-                    Console.WriteLine("startingnewgame");
-                    List<long> pid = new List<long>();
-                    pid.Add(296451593275094601);
-                    Classes.Game g = new Classes.Game(pid, e.Message.Chat.Id);
+                    if (e.Message.Chat.Type == ChatType.Group)
+                    {
+                        //Console.WriteLine("starting new game - lobby");
+
+                        List<long> gameplayerIds = new List<long>();
+
+                        foreach (Lobbyplayer lp in playerIds)
+                        {
+                            if (lp.GroupID == e.Message.Chat.Id) gameplayerIds.Add(lp.PlayerID);
+                        }
+
+                        Classes.Game g = new Classes.Game(gameplayerIds, e.Message.Chat.Id);
+                    }
+
                 }
                 if (e.Message.Text == "myID") Console.Write(e.Message.Chat.Id);
+
+                if (e.Message.Text == "/join")
+                {
+                    if (e.Message.Chat.Type == ChatType.Group)
+                    {
+                        //sorts players by the groups they posted /join in so they are recognized correctly
+                        playerIds.Add(new Lobbyplayer() { PlayerID = e.Message.From.Id, GroupID = e.Message.Chat.Id });
+                        Console.WriteLine("Player joined, ID: {0}, groupid: {1}", e.Message.From.Id, e.Message.Chat.Id);
+                    }
+                }
+
+
                 #endregion
 
                 #region no command
@@ -148,7 +178,7 @@ namespace MunchkinBot
                 token = "Fehler";
             }
 
-            Console.Write("\n{0}\n",token);
+            Console.Write("\nToken des Bots: {0}\n", token);
 
             if (token == "Fehler")
             {
@@ -173,7 +203,7 @@ namespace MunchkinBot
             botUsername = Bot.GetMeAsync().Result.Username;
             Bot.StartReceiving();
 
-            Console.WriteLine(started.ToString());
+            //Console.WriteLine(started.ToString());
             return started;
         }
 
