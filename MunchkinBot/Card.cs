@@ -22,7 +22,7 @@ namespace MunchkinBot
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Type { get; set; }
+        public CardType Type { get; set; }
         public int Count { get; set; }
         public Nullable<int> Level { get; set; }
         public string Bonus { get; set; }
@@ -34,5 +34,13 @@ namespace MunchkinBot
         public string Restrictions { get; set; }
         public Nullable<bool> React { get; set; }
         public string Description { get; set; }
+        public enum CardType
+        {
+            Monster,
+            Clothing,
+            Companion,
+            Weapon,
+            Curse
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace MunchkinBot.Classes
     public class Player
     {
         public long Id { get; set; }
+        public string Name { get; set; }
         public int Level { get; set; }
         public int AttackValue { get; set; }
         public List<Card> Hand = new List<Card>();

@@ -20,6 +20,7 @@ namespace MunchkinBot
         //for sorting players in the lobby into the respective groups they posted their /join in
         public long GroupID { get; set; }
         public long PlayerID { get; set; }
+        public string PlayerName { get; set; }
     }
 
     class Program
@@ -110,7 +111,7 @@ namespace MunchkinBot
                         {
                             if (lp.GroupID == e.Message.Chat.Id) gameplayerIds.Add(lp.PlayerID);
                         }
-
+                        
                         Classes.Game g = new Classes.Game(gameplayerIds, e.Message.Chat.Id);
                     }
 
@@ -123,8 +124,8 @@ namespace MunchkinBot
                     {
                         //sorts players by the groups they posted /join in so they are recognized correctly
                         playerIds.RemoveAll(x => x.PlayerID == e.Message.From.Id);
-                        playerIds.Add(new Lobbyplayer() { PlayerID = e.Message.From.Id, GroupID = e.Message.Chat.Id });
-                        Console.WriteLine("Player joined, ID: {0}, groupid: {1}", e.Message.From.Id, e.Message.Chat.Id);
+                        playerIds.Add(new Lobbyplayer() { PlayerID = e.Message.From.Id, GroupID = e.Message.Chat.Id, PlayerName = e.Message.From.FullName});
+                        Console.WriteLine("Player joined, ID: {0}, groupid: {1}, Name: {2}", e.Message.From.Id, e.Message.Chat.Id, e.Message.From.FullName);
                     }
                 }
 
