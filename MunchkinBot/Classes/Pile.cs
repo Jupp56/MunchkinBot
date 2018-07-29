@@ -10,6 +10,11 @@ namespace MunchkinBot.Classes
     {
         private List<Card> cards = new List<Card>(); //top is last index, bottom 0
 
+        public void Add(Card c)
+        {
+            cards.Add(c);
+        }
+
         public void Refill(List<Card> cards)
         {
             foreach (Card card in this.cards)

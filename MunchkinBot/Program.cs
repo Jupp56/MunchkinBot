@@ -48,7 +48,7 @@ namespace MunchkinBot
             
             Console.WriteLine("Munchkin Bot v. (alpha) 0.0.1 \n@Author: Olfi01 und SAvB\n\nNur zur privaten Verwendung! Munchkin: (c) Steve Jackson Games 2001 und Pegasus Spiele 2003 für die deutsche Übersetzung.\nAlle Rechte bleiben bei den entsprechenden Eigentümern\n");
             Console.WriteLine("<Bot startet...>\n");
-
+            
             bool started = StartBot();
 
             if (started == false)
@@ -58,6 +58,7 @@ namespace MunchkinBot
                 Environment.Exit(1);
             }
 
+            
             InitCommands();
             Bot.OnMessage += Bot_OnMessage;
             
@@ -111,12 +112,12 @@ namespace MunchkinBot
                         {
                             if (lp.GroupID == e.Message.Chat.Id) gameplayerIds.Add(lp.PlayerID);
                         }
-                        
+                        //gameplayerIds, e.Message.Chat.Id
                         Classes.Game g = new Classes.Game(gameplayerIds, e.Message.Chat.Id);
                     }
 
                 }
-                if (e.Message.Text == "myID") Console.Write(e.Message.Chat.Id);
+                if (e.Message.Text == "/myID") Console.Write(e.Message.Chat.Id);
 
                 if (e.Message.Text == "/join")
                 {
@@ -203,6 +204,7 @@ namespace MunchkinBot
             }
 
             botUsername = Bot.GetMeAsync().Result.Username;
+            Bot.ClearUpdates();
             Bot.StartReceiving();
 
             //Console.WriteLine(started.ToString());

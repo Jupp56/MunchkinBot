@@ -25,21 +25,23 @@ namespace MunchkinBot.Classes
         public static long GroupId { get; set; }
         public static string Token { get; set; }
         public static List<Player> Players = new List<Player>();
-        public static Pile DoorPile = new Pile();
-        public static Pile TreasurePile = new Pile();
-        public static Stack DoorStack;
-        public static Stack TreasureStack;
+        public static Pile DoorPile = new Pile(); //ablegestapel    
+        public static Pile TreasurePile = new Pile(); //ablegestapel
+        public static Stack DoorStack; //nazistapel
+        public static Stack TreasureStack; //nazistapel
         public event EventHandler<string> SendMessage;
         private static TelegramBot Bot; //do we do this from here?
         private static Card ActiveDoorCard = new Card();
         private static bool started;
         private static string botUsername;
         private static Random r = new Random();
-        private static Player ActivePlayer = Players[r.Next(0, Players.Capacity)];
+        
+        private static Player ActivePlayer;
         public static GameState state = GameState.NextPlayer;
         private static List<Player> OtherPlayersFighting;
         private static List<Card> ActiveMonsters = new List<Card>();
 
+        
         public enum GameState
         {
             NextPlayer,
@@ -54,9 +56,13 @@ namespace MunchkinBot.Classes
         #endregion
 
         #region constructor
+        //List<long> PlayerIDs, long GroupID
 
         public Game(List<long> PlayerIDs, long GroupID)
         {
+            Console.WriteLine("gamestarted");
+            //List<long> PlayerIDs = new List<long>();
+            //long GroupID = 0;
             Console.WriteLine("starting new game");
             GroupId = GroupID;
             //Players = PlayerIDs;
@@ -73,9 +79,12 @@ namespace MunchkinBot.Classes
                 Players.Add(p);
             }
 
+            ActivePlayer = Players[0];
+
             StartRecieving();
 
             Bot.OnMessage += Bot_OnMessage;
+            
 
             Console.WriteLine("Players:");
             foreach (Player p in Players)
@@ -87,33 +96,61 @@ namespace MunchkinBot.Classes
             DoorStack = new Stack(DoorPile, StackType.Door);
             DoorStack.SendMessage += SendMessage;
             DoorStack.Shuffle();
+            DoorStack.SendMessage += SendToAll;
             TreasureStack = new Stack(TreasurePile, StackType.Treasure);
             TreasureStack.SendMessage += SendMessage;
-            TreasureStack.Shuffle();
+            TreasureStack.Shuffle();           
+            TreasureStack.SendMessage += SendToAll;
 
             SendStartingMessage();
             SendToAll(ActivePlayer.Name + " fängt an!");
 
-            Console.ReadLine();
+            loop:
 
+            string command = Console.ReadLine();
+            if (command != "/stop")
+            {
+                switch (command)
+                {
+                    case "/showplayers":
+                        foreach (Player p in Players)
+                        {
+                            p.ComputeAttackValue();
+                            Console.WriteLine("ID: {0}\nName: {1}\nLevel: {2}\nAttackValue: {3}",p.Id,p.Name,p.Level,p.AttackValue);
+                            Console.WriteLine(Players[AnyPlayersIndex(p.Id)].Level);
+                        }
+                        goto loop;
+                        
+                }
+
+                goto loop;
+            }
+            
         }
 
         #endregion
-
+        
         #region Message Handler
         //Message Handler
+        
         private static void Bot_OnMessage(object sender, MessageEventArgs e)
         {
             //check if its the right group
             if (e.Message.Chat.Id == GroupId)
             {
+
+                List<string> arguments = new List<string>(e.Message.Text.Split(' '));
+                string command = arguments[0];
+                arguments.RemoveAt(0);
+                Player messagesender = GetPlayerObjectbyId(e.Message.From.Id);
+
                 #region NextPlayer
 
                 //for every command that should only work in NextPlayer gamestate
                 if (state == GameState.NextPlayer)
                 {
 
-                    switch (e.Message.Text)                     
+                    switch (command)                     
                     {
                         case "/Türeintreten":
                         
@@ -138,7 +175,7 @@ namespace MunchkinBot.Classes
                 if (state == GameState.Fight1 || state == GameState.Fight2)
                 {
 
-                    switch (e.Message.Text)
+                    switch (command)
                     {
                         case "/joinfight":
 
@@ -152,13 +189,29 @@ namespace MunchkinBot.Classes
                             {
                                 Fight();
                             }
-
                             break;
 
                         case "/Monstereinwerfen":
 
-                            //ACHTUNG: Afterwards there is more. currently it doesent get down here.
+                            foreach (string m in arguments)
+                            {
+                                if (messagesender.Hand.Find(x => x.Name == m) != null)
+                                {
+                                    //needs testing
 
+                                    Card c = messagesender.Hand.Find(x => x.Name == m);
+                                    if (c.Type == Card.CardType.Monster)
+                                    {
+                                        Players[AnyPlayersIndex(messagesender.Id)].Hand.Remove(c);
+                                        ActiveMonsters.Add(c);
+                                    }
+                                    else
+                                    {
+                                        SendToOne(messagesender, "Diese Karte kannst du nicht spielen");
+                                    }
+                                }
+                            }
+                            
                             break;
 
                     }
@@ -166,10 +219,8 @@ namespace MunchkinBot.Classes
                 }
 
                 #endregion
-
-
-
             }
+
         }
 
         #endregion
@@ -202,12 +253,13 @@ namespace MunchkinBot.Classes
             //not here: ActivePlayer.ComputeAttackValue();
         }
 
-        
+
         #endregion
 
         #region Mechanics
 
         //called by players message when he is ready figuring out his attack with the other players
+        //to implement: curses
         private static void Fight()
         {
             int combinedAttackValue = 0;
@@ -228,6 +280,14 @@ namespace MunchkinBot.Classes
                 combinedAttackValue += pl.AttackValue;
             }
 
+            if (combinedAttackValue >= MonsterValue)
+            {
+                haswon = true;
+            }
+            else
+            {
+                haswon = false;
+            }
 
             //below this in this method only: reset variables to standard values
             if (state == GameState.Fight2 && haswon == true) state = GameState.NextPlayer;
@@ -251,6 +311,10 @@ namespace MunchkinBot.Classes
                 Players[AnyPlayersIndex(playerwithmodifier.p.Id)].Level += playerwithmodifier.Modifier;
             }
 
+            foreach(Card c in ActiveMonsters)
+            {
+                DoorPile.Add(c);
+            }
             playersandModifiers = null;
             ActiveDoorCard = null;
             OtherPlayersFighting = null;
@@ -270,7 +334,7 @@ namespace MunchkinBot.Classes
             return false;
         }
 
-        private static void calculateloosing()
+        private static void Calculateloosing()
         {
 
         }
@@ -278,11 +342,17 @@ namespace MunchkinBot.Classes
         #endregion
 
         #region Message sending methods
+        
 
         private static void SendToAll(string message)
         {           
             Bot.SendTextMessageAsync(GroupId, message);
 
+        }
+
+        static void SendToAll(object sender, string s)
+        {
+            SendToAll(s);
         }
 
         private static void SendToOne(Player p, string message)
@@ -396,6 +466,6 @@ namespace MunchkinBot.Classes
             return started;
         }
     }
-       
-    
+
+
 }
