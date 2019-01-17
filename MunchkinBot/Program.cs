@@ -28,7 +28,6 @@ namespace MunchkinBot
         #region variables and constants
         private const string dbFileName = "cardDb.sqlc";
         private static TelegramBot Bot;
-        private static MunchkinDB db;// = new MunchkinDB(@"C:\Users\Nick\Documents\Visual Studio 2015\Projects\MunchkinBot\MunchkinBot\MunchkinDB.edmx.sql");
         private static string token;
         private static string botUsername = "";
         private static Dictionary<string, Action<Message>> commands = new Dictionary<string, Action<Message>>();
@@ -97,7 +96,7 @@ namespace MunchkinBot
                 #region extra commands
                 if (e.Message.Text=="someone there?")
                 {
-                    Bot.SendTextMessageAsync(e.Message.Chat.Id, "Bot up and running... " + e.Message.Chat.FirstName + " " + e.Message.Chat.LastName);
+                    Bot.SendMessageAsync(e.Message.Chat.Id, "Bot up and running... " + e.Message.Chat.FirstName + " " + e.Message.Chat.LastName);
                 }
                 //to be deleted, only testing
                 if (e.Message.Text == "/startgame")
@@ -142,7 +141,7 @@ namespace MunchkinBot
             }
             else
             {
-                //Bot.SendTextMessageAsync(e.Message.Chat.Id, "Es werden keine anderen Nachrichten als Textnachrichten unterstützt!");
+                //Bot.SendMessageAsync(e.Message.Chat.Id, "Es werden keine anderen Nachrichten als Textnachrichten unterstützt!");
             }
         }
 
@@ -153,8 +152,8 @@ namespace MunchkinBot
         public static bool StartBot()
         {
             bool started = false;
-
-            db = new MunchkinDB(dbFileName);
+            
+            //TODO: Startkarten aus Datei lesen
             //TODO: Eine weitere Datenbank für Spiele, Nutzer und Gruppen anlegen im AppData\Roaming\MunchkinBot Ordner
             //Hier die Startüberprüfungen (Datenbank???)(Token überprüfen...)
             //Token überprüft die lib selbst, no need to worry. Evtl. Bot.GetMe() für Funktionalität.
@@ -219,7 +218,7 @@ namespace MunchkinBot
             {
                 foreach (string s in allcurrentchats)
                 {
-                    Bot.SendTextMessageAsync(s, "Bot stopped"); //not implemented yet
+                    Bot.SendMessageAsync(s, "Bot stopped"); //not implemented yet
                 }
             }
 

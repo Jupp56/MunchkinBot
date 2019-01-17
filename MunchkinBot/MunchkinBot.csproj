@@ -46,8 +46,8 @@
     <Reference Include="EntityFramework.SqlServerCompact, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.SqlServerCompact.6.0.0\lib\net40\EntityFramework.SqlServerCompact.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -64,14 +64,13 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TelegramBotApi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Crazypokemondev.TelegramBotApi.1.0.8\lib\net461\TelegramBotApi.dll</HintPath>
+    <Reference Include="TelegramBotApi, Version=1.0.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Crazypokemondev.TelegramBotApi.1.0.16\lib\net461\TelegramBotApi.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Card.cs">
-      <DependentUpon>MunchkinDB.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Classes\Card.cs" />
+    <Compile Include="Classes\Dungeon.cs" />
     <Compile Include="Classes\Game.cs" />
     <Compile Include="Classes\Pile.cs" />
     <Compile Include="Classes\Player.cs" />
@@ -79,63 +78,14 @@
     <Compile Include="Encoded\Bonus.cs" />
     <Compile Include="Encoded\Targets.cs" />
     <Compile Include="Language\Strings.cs" />
-    <Compile Include="MunchkinDB.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MunchkinDB.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MunchkinDB.cs" />
-    <Compile Include="MunchkinDB.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MunchkinDB.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Dungeon.cs">
-      <DependentUpon>MunchkinDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Kartenstack.cs" />
-    <Compile Include="MunchkinContext.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MunchkinContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MunchkinDB1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MunchkinDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <EntityDeploy Include="MunchkinDB.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MunchkinDB.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <None Include="cardDb.sqlc" />
-    <None Include="MunchkinDB.edmx.diagram">
-      <DependentUpon>MunchkinDB.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="MunchkinContext.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MunchkinContext.cs</LastGenOutput>
-      <DependentUpon>MunchkinDB.edmx</DependentUpon>
-    </Content>
-    <Content Include="MunchkinDB.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MunchkinDB.Context.cs</LastGenOutput>
-      <DependentUpon>MunchkinDB.edmx</DependentUpon>
-    </Content>
-    <Content Include="MunchkinDB.edmx.sql" />
-    <Content Include="MunchkinDB.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MunchkinDB1.cs</LastGenOutput>
-      <DependentUpon>MunchkinDB.edmx</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

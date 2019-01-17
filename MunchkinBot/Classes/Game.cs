@@ -161,7 +161,7 @@ namespace MunchkinBot.Classes
                             }
                             else
                             {
-                                Bot.SendTextMessageAsync(e.Message.From.Id, "Du bist nicht an der Reihe!");
+                                Bot.SendMessageAsync(e.Message.From.Id, "Du bist nicht an der Reihe!");
                             }
                             break;
                     }
@@ -346,7 +346,7 @@ namespace MunchkinBot.Classes
 
         private static void SendToAll(string message)
         {           
-            Bot.SendTextMessageAsync(GroupId, message);
+            Bot.SendMessageAsync(GroupId, message);
 
         }
 
@@ -357,14 +357,14 @@ namespace MunchkinBot.Classes
 
         private static void SendToOne(Player p, string message)
         {
-            Bot.SendTextMessageAsync(p.Id, message);
+            Bot.SendMessageAsync(p.Id, message);
         }
 
         private static void SendToGroup(List<Player> pl, string message)
         {
             foreach(Player p in pl)
             {
-                Bot.SendTextMessageAsync(p.Id, message);
+                Bot.SendMessageAsync(p.Id, message);
             }
         }
         
@@ -374,7 +374,7 @@ namespace MunchkinBot.Classes
             foreach (Player p in Players)
             {
                 Console.WriteLine("To: {0}",p.Id);
-                Bot.SendTextMessageAsync(p.Id, "Hallo! Willkommen zum MunchkinBot. Du hast erfolgreich das Spiel betreten, welches soeben gestartet ist!");
+                Bot.SendMessageAsync(p.Id, "Hallo! Willkommen zum MunchkinBot. Du hast erfolgreich das Spiel betreten, welches soeben gestartet ist!");
             }
         }
 
