@@ -71,12 +71,12 @@
   <ItemGroup>
     <Compile Include="Classes\Card.cs" />
     <Compile Include="Classes\Dungeon.cs" />
+    <Compile Include="Classes\Serialization\CardWithCount.cs" />
     <Compile Include="Classes\Game.cs" />
     <Compile Include="Classes\Pile.cs" />
     <Compile Include="Classes\Player.cs" />
     <Compile Include="Classes\Stack.cs" />
-    <Compile Include="Encoded\Bonus.cs" />
-    <Compile Include="Encoded\Targets.cs" />
+    <Compile Include="Classes\Serialization\Targets.cs" />
     <Compile Include="Language\Strings.cs" />
     <Compile Include="Kartenstack.cs" />
     <Compile Include="Program.cs" />

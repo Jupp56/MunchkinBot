@@ -1,4 +1,4 @@
-﻿namespace MunchkinBot.Encoded
+﻿namespace MunchkinBot.Classes.Serialization
 {
     public static class Targets
     {
