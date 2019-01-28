@@ -79,8 +79,6 @@ namespace MunchkinBot
 
             stopEvent.WaitOne();
             StopBot();
-
-
         }
         #endregion
 
