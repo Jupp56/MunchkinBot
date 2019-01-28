@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MunchkinBot", "MunchkinBot\MunchkinBot.csproj", "{FF42B98D-D949-45D2-B666-ED5847A2E743}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MunchkinBotControl", "MunchkinBotControl\MunchkinBotControl.csproj", "{9AA040DD-7650-4BCE-A9A4-A6E7E5769828}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +17,15 @@ Global
 		{FF42B98D-D949-45D2-B666-ED5847A2E743}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF42B98D-D949-45D2-B666-ED5847A2E743}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF42B98D-D949-45D2-B666-ED5847A2E743}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AA040DD-7650-4BCE-A9A4-A6E7E5769828}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AA040DD-7650-4BCE-A9A4-A6E7E5769828}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AA040DD-7650-4BCE-A9A4-A6E7E5769828}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AA040DD-7650-4BCE-A9A4-A6E7E5769828}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3FF80420-9901-48F8-8EB7-9870467D002D}
 	EndGlobalSection
 EndGlobal
