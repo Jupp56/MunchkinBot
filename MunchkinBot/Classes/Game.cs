@@ -4,18 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Win32;
+using MunchkinBot.Classes.Cards;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 
 namespace MunchkinBot.Classes
 {
-    public class PlayersandModifiers
-    {
-        public Player p;
-        public int Modifier;
-    }
-
     public class Game
     {
         #region variables
@@ -29,7 +24,7 @@ namespace MunchkinBot.Classes
         public static Stack TreasureStack; //nazistapel
         public event EventHandler<string> SendMessage;
         private static TelegramBotClient Bot; //do we do this from here?
-        private static Card ActiveDoorCard = new Card();
+        private static Card ActiveDoorCard = null;
         private static bool started;
         private static string botUsername;
         private static Random r = new Random();
@@ -193,7 +188,7 @@ namespace MunchkinBot.Classes
                                     //needs testing
 
                                     Card c = messagesender.Hand.Find(x => x.Name == m);
-                                    if (c.Type == Card.CardType.Monster)
+                                    if (c is MonsterCard)
                                     {
                                         Players[AnyPlayersIndex(messagesender.Id)].Hand.Remove(c);
                                         ActiveMonsters.Add(c);
@@ -230,18 +225,18 @@ namespace MunchkinBot.Classes
             SendToAll(ActivePlayer.Name + " ist an der Reihe! Er tritt eine Tür ein! Es erwartet ihn: " + ActiveDoorCard.Name);
             //here:Send image of said card
 
-            if (ActiveDoorCard.Type == Card.CardType.Monster) //we NEED some clarification about that types! 0 = monster seems good enough, doesnt it?
+            if (ActiveDoorCard is MonsterCard) //we NEED some clarification about that types! 0 = monster seems good enough, doesnt it?
             {
                 //prepareforfight
                 SendToAll("Du musst jetzt kämpfen, " + ActivePlayer.Name + "! Du kannst dir Hilfe holen. Andere Spieler können mit /joinfight dem Kampf beitreten, und helfen. Aber sie können auch Böse sein: sie können dem Kampf ein Monster hinzufügen oder Ereigniskarten auf Spieler wirken! Dazu die Karte mit /playcard <Kartenname> ausspielen.");
             }
 
-            if (ActiveDoorCard.Type == Card.CardType.Clothing || ActiveDoorCard.Type == Card.CardType.Weapon || ActiveDoorCard.Type == Card.CardType.Companion) Players[ThisPlayersIndex()].Hand.Add(ActiveDoorCard);
-            
-            if (ActiveDoorCard.Type == Card.CardType.Curse)
+            else if (ActiveDoorCard is CurseCard)
             {
-                //whatever happens then... To be implemented
+                // to be implemented
             }
+
+            else Players[ThisPlayersIndex()].Hand.Add(ActiveDoorCard);
             
             //not here: ActivePlayer.ComputeAttackValue();
         }
@@ -287,7 +282,7 @@ namespace MunchkinBot.Classes
             if (state == GameState.Fight1 && haswon == true) state = GameState.Fight2;
 
 
-            List<PlayersandModifiers> playersandModifiers = new List<PlayersandModifiers>();
+            List<(Player Player, int Modifier)> playersandModifiers = new List<(Player Player, int Modifier)>();
 
             if (haswon == false)
             {
@@ -299,9 +294,9 @@ namespace MunchkinBot.Classes
                //Insert Treasure Cards here
             }
 
-            foreach (PlayersandModifiers playerwithmodifier in playersandModifiers)
+            foreach (var playerwithmodifier in playersandModifiers)
             {
-                Players[AnyPlayersIndex(playerwithmodifier.p.Id)].Level += playerwithmodifier.Modifier;
+                Players[AnyPlayersIndex(playerwithmodifier.Player.Id)].Level += playerwithmodifier.Modifier;
             }
 
             foreach(Card c in ActiveMonsters)

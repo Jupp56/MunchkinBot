@@ -64,6 +64,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -77,14 +80,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Card.cs" />
+    <Compile Include="Classes\Cards\ClassCard.cs" />
+    <Compile Include="Classes\Cards\EquipmentAttributes.cs" />
+    <Compile Include="Classes\Cards\BadStuff.cs" />
+    <Compile Include="Classes\Cards\CompanionEffect.cs" />
+    <Compile Include="Classes\Cards\CurseCard.cs" />
+    <Compile Include="Classes\Cards\CurseEffect.cs" />
+    <Compile Include="Classes\Cards\MechanicCard.cs" />
+    <Compile Include="Classes\Cards\MechanicEffect.cs" />
+    <Compile Include="Classes\Cards\MonsterBehavior.cs" />
+    <Compile Include="Classes\Cards\Card.cs" />
+    <Compile Include="Classes\Cards\CardAttribute.cs" />
+    <Compile Include="Classes\Cards\CompanionCard.cs" />
+    <Compile Include="Classes\Cards\EquipmentEffect.cs" />
+    <Compile Include="Classes\Cards\EquipmentCard.cs" />
+    <Compile Include="Classes\Cards\MonsterCard.cs" />
+    <Compile Include="Classes\Cards\Munchkin\PottedPlant.cs" />
+    <Compile Include="Classes\Cards\RaceCard.cs" />
+    <Compile Include="Classes\Cards\SpellCard.cs" />
+    <Compile Include="Classes\Cards\SpellEffect.cs" />
     <Compile Include="Classes\Dungeon.cs" />
-    <Compile Include="Classes\Serialization\CardWithCount.cs" />
     <Compile Include="Classes\Game.cs" />
     <Compile Include="Classes\Pile.cs" />
     <Compile Include="Classes\Player.cs" />
     <Compile Include="Classes\Stack.cs" />
-    <Compile Include="Classes\Serialization\Targets.cs" />
     <Compile Include="Commands\BotCommand.cs" />
     <Compile Include="Commands\CommandAttribute.cs" />
     <Compile Include="Commands\CommandContext.cs" />
@@ -108,6 +127,7 @@
       <Name>MunchkinBotControl</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
