@@ -20,8 +20,8 @@ namespace MunchkinBot.Commands
         [Command("/stickerid", Description = "Sends back the sticker ID", Usage = "/stickerid", RequiredContext = CommandAttribute.Context.Private, RequiresGlobalAdmin = true, Standalone = true)]
         public static async Task StickerId(CommandContext context)
         {
-            if (context.Message.Type != MessageType.Sticker) return;
-            await context.Bot.SendTextMessageAsync(context.Message.Chat.Id, context.Message.Sticker.FileId);
+            if (context.Message.ReplyToMessage?.Type != MessageType.Sticker) return;
+            await context.Bot.SendTextMessageAsync(context.Message.Chat.Id, context.Message.ReplyToMessage.Sticker.FileId);
         }
     }
 }
