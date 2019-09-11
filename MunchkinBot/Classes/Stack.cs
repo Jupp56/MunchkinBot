@@ -1,4 +1,5 @@
-﻿using MunchkinBot.Language;
+﻿using MunchkinBot.Classes.Cards;
+using MunchkinBot.Language;
 using System;
 using System.Collections.Generic;
 using System.Linq;
