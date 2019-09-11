@@ -206,7 +206,9 @@ namespace MunchkinBotControl
             psi = new ProcessStartInfo(Path.Combine(targetDir.FullName, nodeExecutableName))
             {
                 UseShellExecute = false,
+#if !DEBUG
                 CreateNoWindow = true,
+#endif
                 WorkingDirectory = targetDir.FullName
             };
 
