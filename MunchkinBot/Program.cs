@@ -206,7 +206,6 @@ namespace MunchkinBot
 
             Console.WriteLine("<Bot hält an...>");
             Thread.Sleep(1000);
-            Bot.StopReceiving();
             Console.WriteLine("<Bot beendet>");
             Environment.Exit(0);
 
