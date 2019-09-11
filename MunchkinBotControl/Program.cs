@@ -49,6 +49,9 @@ namespace MunchkinBotControl
                 Guid nodeGuid;
                 switch (input.FirstWord())
                 {
+                    case "startnode":
+                        StartNewNode(x => Console.WriteLine(x));
+                        break;
                     case "stop":
                         if (!input.Contains(" "))
                         {
